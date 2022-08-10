@@ -460,7 +460,7 @@ public class OrderPage extends Pane
 							try {
 								ArrayList<SerialReceipt> serialReceipts = new ArrayList<>();
 								for(UserInformation.ReceiptDraft receiptDraft: customer.Receipt.values()){
-									serialReceipts.add(new SerialReceipt(receiptDraft.DrinkName,receiptDraft.DrinkType,receiptDraft.Price));
+									serialReceipts.add(new SerialReceipt(receiptDraft.DrinkName,receiptDraft.DrinkType,receiptDraft.Price, receiptDraft.MCount,receiptDraft.LCount));
 								}
 								ChatPage.send("order");
 								oout.writeObject(serialReceipts);

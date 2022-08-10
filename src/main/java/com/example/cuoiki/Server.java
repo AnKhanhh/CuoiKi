@@ -39,33 +39,38 @@ public class Server extends JFrame {
 			ss = new ServerSocket(port);
 			ssChat = new ServerSocket(portChat);
 			ssObj = new ServerSocket(portObj);
-			s=ss.accept();
-			sChat=ssChat.accept();
+			s = ss.accept();
+			sChat = ssChat.accept();
 			sObj = ssObj.accept();
 			din = new DataInputStream(s.getInputStream());
 			dinChat = new DataInputStream(sChat.getInputStream());
-			oin=new ObjectInputStream(sObj.getInputStream());
+			oin = new ObjectInputStream(sObj.getInputStream());
 
-			while (!msg.equals("exit")){
+			while (!msg.equals("exit")) {
 				msg = din.readUTF();
-				System.out.println("command received:" + msg);
-				if(msg.equals("message")){
-					appendToPane(paneChat,dinChat.readUTF());
-				} else if(msg.equals("order")){
+//				System.out.println("command received:" + msg);
+				if (msg.equals("message")) {
+					appendToPane(paneChat, dinChat.readUTF());
+				} else if (msg.equals("order")) {
 					try {
 						@SuppressWarnings("unchecked")
 						ArrayList<SerialReceipt> serialReceipts = (ArrayList<SerialReceipt>) oin.readObject();
+						System.out.println("you have ordered the following items:");
 						for (SerialReceipt serialReceipt : serialReceipts) {
-							System.out.println(serialReceipt.display());
+							System.out.println("	" + serialReceipt.display());
 						}
 					} catch (ClassNotFoundException e) {
 						e.printStackTrace();
 					}
 				}
 			}
-;		} catch (IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static void main(String[] args) {
+		Server server = new Server();
 	}
 
 	private void appendToPane(JTextPane tp, String msg) {
@@ -77,9 +82,5 @@ public class Server extends JFrame {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	public static void main(String[] args) {
-		Server server = new Server();
 	}
 }
