@@ -90,7 +90,7 @@ class ServerThread extends Thread {
 				dinMsg.close();
 				dinCmd.close();
 				oin.close();
-				dout.close();
+//				dout.close();
 				sCmd.close();
 				sMsg.close();
 				sObj.close();
