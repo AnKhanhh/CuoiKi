@@ -40,7 +40,7 @@ public class StartPage extends Pane
 
     private UserInformation customer;
     private DrinkMap drink;
-    private final Color TextColor=Color.rgb(71, 43, 43, 1.0);
+    private final Color Color1=Color.rgb(71, 43, 43, 1.0);
 
     //Setup:
     private void setup(UserInformation customer, DrinkMap drink)
@@ -63,7 +63,7 @@ public class StartPage extends Pane
         //PageTitle:
         PageTitle=new FormattedText("A good         drink is likekindness", -1.0, -1.4, false);
         PageTitle.setFont(CustomFont.createFont("Raleway - ExtraBold", "ttf", 28));
-        PageTitle.setFill(TextColor);
+        PageTitle.setFill(Color1);
         PageTitle.setPrefWrapLength(150);
         PageTitle.setEffect(new DropShadow(BlurType.GAUSSIAN, Color.rgb(0 ,0 , 0, 0.2), 4, 0, 0, 4));
         PageTitle.setLayoutX(23); PageTitle.setLayoutY(46);
@@ -72,7 +72,7 @@ public class StartPage extends Pane
         Quote=new FormattedText("\"It awakens your spirit and improves your day.\"", -1.0, 1, false);
         Quote.setPrefWrapLength(145);
         Quote.setFont(CustomFont.createFont("Raleway - SemiBoldItalic", "ttf", 12));
-        Quote.setFill(TextColor);
+        Quote.setFill(Color1);
         Quote.setEffect(new DropShadow(BlurType.GAUSSIAN, Color.rgb(0 ,0 , 0, 0.15), 4, 0, 0, 4));
         Quote.setLayoutX(23); Quote.setLayoutY(157);
 
@@ -95,14 +95,14 @@ public class StartPage extends Pane
 
         StartButtonTextLeft=new Text("-");
         StartButtonTextLeft.setFont(CustomFont.createFont("Raleway - SemiBold", "ttf", 12));
-        StartButtonTextLeft.setFill(TextColor);
+        StartButtonTextLeft.setFill(Color1);
         StartButtonTextRight=new Text("-");
         StartButtonTextRight.setFont(CustomFont.createFont("Raleway - SemiBold", "ttf", 12));
-        StartButtonTextRight.setFill(TextColor);
+        StartButtonTextRight.setFill(Color1);
         StartButtonTextMain=new FormattedText("Join us on an amazing journey!", -1.0, 0, true);
         StartButtonTextMain.setPrefWrapLength(165);
         StartButtonTextMain.setFont(CustomFont.createFont("Raleway - SemiBold", "ttf", 12));
-        StartButtonTextMain.setFill(TextColor);
+        StartButtonTextMain.setFill(Color1);
         StartButtonText=new HBox(StartButtonTextLeft, StartButtonTextMain, StartButtonTextRight);
         StartButtonText.setLayoutX(45); StartButtonText.setLayoutY(433);
 

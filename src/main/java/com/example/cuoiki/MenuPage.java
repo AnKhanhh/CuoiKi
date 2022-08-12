@@ -100,8 +100,8 @@ public class MenuPage extends Pane
     private UserInformation customer;
     private DrinkMap drink;
     private DecimalFormat DoubleFormatter=new DecimalFormat("0.00");
-    private final Color TextColor=Color.rgb(71, 43, 43, 1.0);
-    private final Color TextColor2=Color.rgb(252, 247, 247);
+    private final Color Color1=Color.rgb(71, 43, 43, 1.0);
+    private final Color Color2=Color.rgb(252, 247, 247);
 
     private class Menu extends Pane
     {
@@ -168,14 +168,14 @@ public class MenuPage extends Pane
 
         PickedDrinkTitle=new FormattedText(drinkdetail.getDrinkType()+":  "+drinkdetail.getDrinkName(), -1.0, 0, false);
         PickedDrinkTitle.setPrefWidth(140);
-        PickedDrinkTitle.setFill(TextColor2);
+        PickedDrinkTitle.setFill(Color2);
         PickedDrinkTitle.setFont(CustomFont.createFont("Raleway - MediumItalic", "ttf", 10));
         PickedDrinkTitle.setFont(CustomFont.createFont("Raleway - Medium", "ttf", 10), 1, (drinkdetail.getDrinkType()+": ").length());
         PickedDrinkTitle.setLayoutX(66);PickedDrinkTitle.setLayoutY(231);
         DrinkAdding.getChildren().add(PickedDrinkTitle);
 
         MDrinkCountText=new Text("0");
-        MDrinkCountText.setFill(TextColor2);
+        MDrinkCountText.setFill(Color2);
         MDrinkCountText.setFont(CustomFont.createFont("SFProText - Regular", "otf", 10));
         MDrinkCountText.setWrappingWidth(20);
         MDrinkCountText.setTextAlignment(TextAlignment.RIGHT);
@@ -183,7 +183,7 @@ public class MenuPage extends Pane
         MPriceTag.getChildren().add(MDrinkCountText);
 
         LDrinkCountText=new Text("0");
-        LDrinkCountText.setFill(TextColor2);
+        LDrinkCountText.setFill(Color2);
         LDrinkCountText.setFont(CustomFont.createFont("SFProText - Regular", "otf", 10));
         LDrinkCountText.setWrappingWidth(20);
         LDrinkCountText.setTextAlignment(TextAlignment.RIGHT);
@@ -191,7 +191,7 @@ public class MenuPage extends Pane
         LPriceTag.getChildren().add(LDrinkCountText);
 
         PriceCountText=new Text("$0.00");
-        PriceCountText.setFill(TextColor2);
+        PriceCountText.setFill(Color2);
         PriceCountText.setFont(CustomFont.createFont("Raleway - Medium", "ttf", 11));
         PriceCountText.setWrappingWidth(60);
         PriceCountText.setTextAlignment(TextAlignment.RIGHT);
@@ -343,42 +343,42 @@ public class MenuPage extends Pane
 
         DrinkAddingTitle=new FormattedText("Add this drink", -1.0, 0, false);
         DrinkAddingTitle.setFont(CustomFont.createFont("Raleway - Bold", "ttf", 18));
-        DrinkAddingTitle.setFill(TextColor2);
+        DrinkAddingTitle.setFill(Color2);
         DrinkAddingTitle.setLayoutX(64); DrinkAddingTitle.setLayoutY(192);
 
-        Rectangle DrinkAddingUpperLine=new Rectangle(136, 1, TextColor2);
+        Rectangle DrinkAddingUpperLine=new Rectangle(136, 1, Color2);
         DrinkAddingUpperLine.setLayoutX(64); DrinkAddingUpperLine.setLayoutY(219.5);
-        Rectangle DrinkAddingLowerLine=new Rectangle(136, 1, TextColor2);
+        Rectangle DrinkAddingLowerLine=new Rectangle(136, 1, Color2);
         DrinkAddingLowerLine.setLayoutX(64); DrinkAddingLowerLine.setLayoutY(311.5);
 
         Polygon MPricePointer=new Polygon(0.0, 0.0, 0.0, 6.0, 4.0, 3.0);
-        MPricePointer.setFill(TextColor2);
+        MPricePointer.setFill(Color2);
         MPricePointer.setLayoutX(0); MPricePointer.setLayoutY(6);
         MPriceTagTitle=new FormattedText("Size M :", -1.0, 0, false);
         MPriceTagTitle.setFont(CustomFont.createFont("Raleway - Medium", "ttf", 10));
-        MPriceTagTitle.setFill(TextColor2);
+        MPriceTagTitle.setFill(Color2);
         MPriceTagTitle.setLayoutX(8); MPriceTagTitle.setLayoutY(2.5);
         Polygon MNumberIncrease=new Polygon(2.5, 0.0, 0.0, 3.0, 5.0, 3.0);
-        MNumberIncrease.setFill(TextColor2);
+        MNumberIncrease.setFill(Color2);
         MNumberIncrease.setLayoutX(123); MNumberIncrease.setLayoutY(3.5);
         Polygon MNumberDecrease=new Polygon(0.0, 0.0, 5.0, 0.0, 2.5, 3.0);
-        MNumberDecrease.setFill(TextColor2);
+        MNumberDecrease.setFill(Color2);
         MNumberDecrease.setLayoutX(123); MNumberDecrease.setLayoutY(9.5);
         MPriceTag=new Pane(MPricePointer, MPriceTagTitle, MNumberIncrease, MNumberDecrease);
         MPriceTag.setPrefWidth(128); MPriceTag.setPrefHeight(16);
 
         Polygon LPricePointer=new Polygon(0.0, 0.0, 0.0, 6.0, 4.0, 3.0);
-        LPricePointer.setFill(TextColor2);
+        LPricePointer.setFill(Color2);
         LPricePointer.setLayoutX(0); LPricePointer.setLayoutY(6);
         LPriceTagTitle=new FormattedText("Size L :", -1.0, 0, false);
         LPriceTagTitle.setFont(CustomFont.createFont("Raleway - Medium", "ttf", 10));
-        LPriceTagTitle.setFill(TextColor2);
+        LPriceTagTitle.setFill(Color2);
         LPriceTagTitle.setLayoutX(8); LPriceTagTitle.setLayoutY(2.5);
         Polygon LNumberIncrease=new Polygon(2.5, 0.0, 0.0, 3.0, 5.0, 3.0);
-        LNumberIncrease.setFill(TextColor2);
+        LNumberIncrease.setFill(Color2);
         LNumberIncrease.setLayoutX(123); LNumberIncrease.setLayoutY(3.5);
         Polygon LNumberDecrease=new Polygon(0.0, 0.0, 5.0, 0.0, 2.5, 3.0);
-        LNumberDecrease.setFill(TextColor2);
+        LNumberDecrease.setFill(Color2);
         LNumberDecrease.setLayoutX(123); LNumberDecrease.setLayoutY(9.5);
         LPriceTag=new Pane(LPricePointer, LPriceTagTitle, LNumberIncrease, LNumberDecrease);
         LPriceTag.setPrefWidth(128); LPriceTag.setPrefHeight(16);
@@ -386,7 +386,7 @@ public class MenuPage extends Pane
         PriceTagTitle=new FormattedText("Price :", -1.0, 0, false);
         PriceTagTitle.setPrefWidth(40);
         PriceTagTitle.setFont(CustomFont.createFont("Raleway - Medium", "ttf", 10));
-        PriceTagTitle.setFill(TextColor2);
+        PriceTagTitle.setFill(Color2);
         PriceTag=new Pane(PriceTagTitle);
         PriceTag.setLayoutX(80); PriceTag.setLayoutY(290.5);
 
@@ -396,10 +396,10 @@ public class MenuPage extends Pane
         AddButtonTitle=new FormattedText("Add", -1.0, 0, true);
         AddButtonTitle.setPrefWidth(25);
         AddButtonTitle.setFont(CustomFont.createFont("Raleway - Bold", "ttf", 11));
-        AddButtonTitle.setFill(TextColor2);
+        AddButtonTitle.setFill(Color2);
         CancelButtonTitle=new FormattedText("Cancel", -1.0, 0, true);
         CancelButtonTitle.setPrefWidth(36);
-        CancelButtonTitle.setFill(TextColor2);
+        CancelButtonTitle.setFill(Color2);
         CancelButtonTitle.setFont(CustomFont.createFont("Raleway - Bold", "ttf", 11));
         ButtonTitle=new HBox(44, AddButtonTitle, CancelButtonTitle);
         ButtonTitle.setLayoutX(80); ButtonTitle.setLayoutY(322);
@@ -454,7 +454,7 @@ public class MenuPage extends Pane
         PageTitle=new FormattedText("Menu", -1.0, 0, false);
         PageTitle.setFont(CustomFont.createFont("Raleway - ExtraBold", "ttf", 28));
         PageTitle.setPrefWrapLength(170);
-        PageTitle.setFill(TextColor);
+        PageTitle.setFill(Color1);
         PageTitle.setEffect(new DropShadow(BlurType.GAUSSIAN, Color.rgb(0 ,0 , 0, 0.2), 4, 0, 0, 4));
         PageTitle.setLayoutX(23); PageTitle.setLayoutY(44);
 
@@ -462,18 +462,18 @@ public class MenuPage extends Pane
         PageQuote=new FormattedText("The world of drinks is here. Go pick one!", -1.0, 1.0, false);
         PageQuote.setFont(CustomFont.createFont("Raleway - SemiBoldItalic", "ttf", 12));
         PageQuote.setPrefWrapLength(148);
-        PageQuote.setFill(TextColor);
+        PageQuote.setFill(Color1);
         PageQuote.setEffect(new DropShadow(BlurType.GAUSSIAN, Color.rgb(0 ,0 , 0, 0.15), 10, 0, 0, 4));
         PageQuote.setLayoutX(23); PageQuote.setLayoutY(84);
 
         //BubbleTea:
         BubbleTeaTitleText=new FormattedText("Bubble Tea", -1.0, 0, false);
         BubbleTeaTitleText.setFont(CustomFont.createFont("Raleway - Bold", "ttf", 16));
-        BubbleTeaTitleText.setFill(TextColor);
+        BubbleTeaTitleText.setFill(Color1);
         BubbleTeaTitleText.setLayoutX(12); BubbleTeaTitleText.setLayoutY(1);
-        Rectangle BubbleTeaLeftLine=new Rectangle(12, 1, TextColor);
+        Rectangle BubbleTeaLeftLine=new Rectangle(12, 1, Color1);
         BubbleTeaLeftLine.setLayoutX(0); BubbleTeaLeftLine.setLayoutY(11);
-        Rectangle BubbleTeaRightLine=new Rectangle(134, 1, TextColor);
+        Rectangle BubbleTeaRightLine=new Rectangle(134, 1, Color1);
         BubbleTeaRightLine.setLayoutX(98); BubbleTeaRightLine.setLayoutY(11);
         BubbleTeaTitle=new Pane(BubbleTeaLeftLine, BubbleTeaTitleText, BubbleTeaRightLine);
         BubbleTeaTitle.setPrefWidth(264);
@@ -641,11 +641,11 @@ public class MenuPage extends Pane
         //FreshTea:
         FreshTeaTitleText=new FormattedText("Fresh Tea", -1.0, 0, false);
         FreshTeaTitleText.setFont(CustomFont.createFont("Raleway - Bold", "ttf", 16));
-        FreshTeaTitleText.setFill(TextColor);
+        FreshTeaTitleText.setFill(Color1);
         FreshTeaTitleText.setLayoutX(12); FreshTeaTitleText.setLayoutY(1);
-        Rectangle FreshTeaLeftLine=new Rectangle(12, 1, TextColor);
+        Rectangle FreshTeaLeftLine=new Rectangle(12, 1, Color1);
         FreshTeaLeftLine.setLayoutX(0); FreshTeaLeftLine.setLayoutY(11);
-        Rectangle FreshTeaRightLine=new Rectangle(147, 1, TextColor);
+        Rectangle FreshTeaRightLine=new Rectangle(147, 1, Color1);
         FreshTeaRightLine.setLayoutX(85); FreshTeaRightLine.setLayoutY(11);
         FreshTeaTitle=new Pane(FreshTeaLeftLine, FreshTeaTitleText, FreshTeaRightLine);
         FreshTeaTitle.setPrefWidth(264);
@@ -765,11 +765,11 @@ public class MenuPage extends Pane
         //Coffee:
         CoffeeTitleText=new FormattedText("Coffee", -1.0, 0, false);
         CoffeeTitleText.setFont(CustomFont.createFont("Raleway - Bold", "ttf", 16));
-        CoffeeTitleText.setFill(TextColor);
+        CoffeeTitleText.setFill(Color1);
         CoffeeTitleText.setLayoutX(12); CoffeeTitleText.setLayoutY(1);
-        Rectangle CoffeeLeftLine=new Rectangle(12, 1, TextColor);
+        Rectangle CoffeeLeftLine=new Rectangle(12, 1, Color1);
         CoffeeLeftLine.setLayoutX(0); CoffeeLeftLine.setLayoutY(11);
-        Rectangle CoffeeRightLine=new Rectangle(169, 1, TextColor);
+        Rectangle CoffeeRightLine=new Rectangle(169, 1, Color1);
         CoffeeRightLine.setLayoutX(63); CoffeeRightLine.setLayoutY(11);
         CoffeeTitle=new Pane(CoffeeLeftLine, CoffeeTitleText, CoffeeRightLine);
         CoffeeTitle.setPrefWidth(264);
@@ -853,11 +853,11 @@ public class MenuPage extends Pane
         //Caramel:
         CaramelTitleText=new FormattedText("Caramel", -1.0, 0, false);
         CaramelTitleText.setFont(CustomFont.createFont("Raleway - Bold", "ttf", 16));
-        CaramelTitleText.setFill(TextColor);
+        CaramelTitleText.setFill(Color1);
         CaramelTitleText.setLayoutX(12); CaramelTitleText.setLayoutY(1);
-        Rectangle CaramelLeftLine=new Rectangle(12, 1, TextColor);
+        Rectangle CaramelLeftLine=new Rectangle(12, 1, Color1);
         CaramelLeftLine.setLayoutX(0); CaramelLeftLine.setLayoutY(11);
-        Rectangle CaramelRightLine=new Rectangle(156, 1, TextColor);
+        Rectangle CaramelRightLine=new Rectangle(156, 1, Color1);
         CaramelRightLine.setLayoutX(76); CaramelRightLine.setLayoutY(11);
         CaramelTitle=new Pane(CaramelLeftLine, CaramelTitleText, CaramelRightLine);
         CaramelTitle.setPrefWidth(264);
@@ -989,11 +989,11 @@ public class MenuPage extends Pane
         //Toppings:
         ToppingsTitleText=new FormattedText("Toppings", -1.0, 0, false);
         ToppingsTitleText.setFont(CustomFont.createFont("Raleway - Bold", "ttf", 16));
-        ToppingsTitleText.setFill(TextColor);
+        ToppingsTitleText.setFill(Color1);
         ToppingsTitleText.setLayoutX(12); ToppingsTitleText.setLayoutY(1);
-        Rectangle ToppingsLeftLine=new Rectangle(12, 1, TextColor);
+        Rectangle ToppingsLeftLine=new Rectangle(12, 1, Color1);
         ToppingsLeftLine.setLayoutX(0); ToppingsLeftLine.setLayoutY(11);
-        Rectangle ToppingsRightLine=new Rectangle(149, 1, TextColor);
+        Rectangle ToppingsRightLine=new Rectangle(149, 1, Color1);
         ToppingsRightLine.setLayoutX(83); ToppingsRightLine.setLayoutY(11);
         ToppingsTitle=new Pane(ToppingsLeftLine, ToppingsTitleText, ToppingsRightLine);
         ToppingsTitle.setPrefWidth(264);

@@ -28,7 +28,7 @@ public class NavigationBar extends Pane
 
     private UserInformation customer;
     private DrinkMap drink;
-    private final Color TextColor=Color.rgb(71, 43, 43, 1.0);
+    private final Color Color1=Color.rgb(71, 43, 43, 1.0);
     public enum PagePicker{HOME, MENU, CHAT, PROFILE}
 
     //Setup:
@@ -43,10 +43,10 @@ public class NavigationBar extends Pane
     private void build()
     {
         //PickerIcon:
-        Rectangle Rect1=new Rectangle(32, 28, TextColor);
+        Rectangle Rect1=new Rectangle(32, 28, Color1);
         Rect1.setArcWidth(20); Rect1.setArcHeight(20);
         Rect1.setLayoutX(0); Rect1.setLayoutY(0);
-        Rectangle Rect2=new Rectangle(16, 2, TextColor);
+        Rectangle Rect2=new Rectangle(16, 2, Color1);
         Rect2.setArcWidth(2.5); Rect2.setArcHeight(2.5);
         Rect2.setLayoutX(8); Rect2.setLayoutY(31);
         PickerIcon=new Pane(Rect1, Rect2);

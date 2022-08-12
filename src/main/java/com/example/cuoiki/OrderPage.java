@@ -22,7 +22,10 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -63,18 +66,18 @@ public class OrderPage extends Pane
     private UserInformation customer;
     private DrinkMap drink;
     private DecimalFormat DoubleFormatter=new DecimalFormat("0.00");
-    private final Color TextColor=Color.rgb(71, 43, 43, 1.0);
-    private final Color TextColor2=Color.rgb(252, 247, 247);
-    private final Color TextColor3=Color.rgb(252, 255, 249);
+    private final Color Color1=Color.rgb(71, 43, 43, 1.0);
+    private final Color Color2=Color.rgb(252, 247, 247);
+    private final Color Color3=Color.rgb(252, 255, 249);
     private double TotalPrice;
 
 	//Send order
-	static Socket  sObj;
+	static Socket sObj;
 //	static DataOutputStream dout;
 	static ObjectOutputStream oout;
 	static {
 		try {
-			sObj=new Socket("127.0.0.1",8888);
+			sObj=new Socket("127.0.0.1",8001);
 			oout =new ObjectOutputStream(sObj.getOutputStream());
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -121,7 +124,7 @@ public class OrderPage extends Pane
             PriceCountText=null;
             this.getChildren().remove(4);
             PriceCountText=new FormattedText("$"+DoubleFormatter.format(draft.Price) , -1.0, 0, false);
-            PriceCountText.setFill(TextColor2);
+            PriceCountText.setFill(Color2);
             PriceCountText.setFont(CustomFont.createFont("Raleway - SemiBold", "ttf", 12));
             PriceCountText.setPrefWrapLength(60);
             PriceCountText.setLayoutX(94); PriceCountText.setLayoutY(68);
@@ -130,7 +133,7 @@ public class OrderPage extends Pane
 
         private void build()
         {
-            Holder=new Rectangle(216, 96, TextColor);
+            Holder=new Rectangle(216, 96, Color1);
             Holder.setArcWidth(32); Holder.setArcHeight(32);
             Holder.setLayoutX(0); Holder.setLayoutY(0);
 
@@ -140,7 +143,7 @@ public class OrderPage extends Pane
             DrinkImage.setSmooth(true);
             DrinkImage.setCache(true);
             DrinkImage.setLayoutX(12); DrinkImage.setLayoutY(12);
-            DrinkImageMask=new Rectangle(72, 72, TextColor2);
+            DrinkImageMask=new Rectangle(72, 72, Color2);
             DrinkImageMask.setArcWidth(24); DrinkImageMask.setArcHeight(24);
             DrinkImage.setClip(DrinkImageMask);
 
@@ -148,21 +151,21 @@ public class OrderPage extends Pane
             DrinkName=new FormattedText((draft.DrinkType.equals("Toppings")?"":draft.DrinkType+" - ")+draft.DrinkName, -1.0, 0, false);
             DrinkName.setPrefWrapLength(120);
             DrinkName.setFont(CustomFont.createFont("Raleway - SemiBold", "ttf", 10.5));
-            DrinkName.setFill(TextColor2);
+            DrinkName.setFill(Color2);
             DrinkName.setLayoutX(94); DrinkName.setLayoutY(13);
 
             Polygon MPricePointer=new Polygon(0.0, 0.0, 0.0, 6.0, 4.0, 3.0);
-            MPricePointer.setFill(TextColor2);
+            MPricePointer.setFill(Color2);
             MPricePointer.setLayoutX(0); MPricePointer.setLayoutY(3);
             MPriceTagTitle=new FormattedText("Size M :", -0.5, 0, true);
             MPriceTagTitle.setFont(CustomFont.createFont("Raleway - MediumItalic", "ttf", 9));
-            MPriceTagTitle.setFill(TextColor2);
+            MPriceTagTitle.setFill(Color2);
             MPriceTagTitle.setLayoutX(6); MPriceTagTitle.setLayoutY(1);
             Polygon MNumberIncrease=new Polygon(2.5, 0.0, 0.0, 3.0, 5.0, 3.0);
-            MNumberIncrease.setFill(TextColor2);
+            MNumberIncrease.setFill(Color2);
             MNumberIncrease.setLayoutX(100); MNumberIncrease.setLayoutY(1.5);
             Polygon MNumberDecrease=new Polygon(0.0, 0.0, 5.0, 0.0, 2.5, 3.0);
-            MNumberDecrease.setFill(TextColor2);
+            MNumberDecrease.setFill(Color2);
             MNumberDecrease.setLayoutX(100); MNumberDecrease.setLayoutY(7.5);
             MNumberIncreaseButton=new Button();
             MNumberIncreaseButton.setStyle("-fx-border-color: transparent; -fx-background-color: transparent;");
@@ -223,7 +226,7 @@ public class OrderPage extends Pane
             MNumberButtons=new VBox(1, MNumberIncreaseButton, MNumberDecreaseButton);
             MNumberButtons.setLayoutX(99); MNumberButtons.setLayoutY(0.5);
             MDrinkCountText=new Text(Integer.toString(draft.MCount));
-            MDrinkCountText.setFill(TextColor2);
+            MDrinkCountText.setFill(Color2);
             MDrinkCountText.setFont(CustomFont.createFont("SFProText - Regular", "otf", 10));
             MDrinkCountText.setWrappingWidth(20);
             MDrinkCountText.setTextAlignment(TextAlignment.RIGHT);
@@ -232,17 +235,17 @@ public class OrderPage extends Pane
             MPriceTag.setPrefWidth(104); MPriceTag.setPrefHeight(13);
 
             Polygon LPricePointer=new Polygon(0.0, 0.0, 0.0, 6.0, 4.0, 3.0);
-            LPricePointer.setFill(TextColor2);
+            LPricePointer.setFill(Color2);
             LPricePointer.setLayoutX(0); LPricePointer.setLayoutY(3);
             LPriceTagTitle=new FormattedText("Size L :", -0.5, 0, true);
             LPriceTagTitle.setFont(CustomFont.createFont("Raleway - MediumItalic", "ttf", 9));
-            LPriceTagTitle.setFill(TextColor2);
+            LPriceTagTitle.setFill(Color2);
             LPriceTagTitle.setLayoutX(6); LPriceTagTitle.setLayoutY(1);
             Polygon LNumberIncrease=new Polygon(2.5, 0.0, 0.0, 3.0, 5.0, 3.0);
-            LNumberIncrease.setFill(TextColor2);
+            LNumberIncrease.setFill(Color2);
             LNumberIncrease.setLayoutX(100); LNumberIncrease.setLayoutY(1.5);
             Polygon LNumberDecrease=new Polygon(0.0, 0.0, 5.0, 0.0, 2.5, 3.0);
-            LNumberDecrease.setFill(TextColor2);
+            LNumberDecrease.setFill(Color2);
             LNumberDecrease.setLayoutX(100); LNumberDecrease.setLayoutY(7.5);
             LNumberIncreaseButton=new Button();
             LNumberIncreaseButton.setStyle("-fx-border-color: transparent; -fx-background-color: transparent;");
@@ -303,7 +306,7 @@ public class OrderPage extends Pane
             LNumberButtons=new VBox(1, LNumberIncreaseButton, LNumberDecreaseButton);
             LNumberButtons.setLayoutX(99); LNumberButtons.setLayoutY(0.5);
             LDrinkCountText=new Text(Integer.toString(draft.LCount));
-            LDrinkCountText.setFill(TextColor2);
+            LDrinkCountText.setFill(Color2);
             LDrinkCountText.setFont(CustomFont.createFont("SFProText - Regular", "otf", 10));
             LDrinkCountText.setWrappingWidth(20);
             LDrinkCountText.setTextAlignment(TextAlignment.RIGHT);
@@ -315,7 +318,7 @@ public class OrderPage extends Pane
             PriceTag.setLayoutX(96); PriceTag.setLayoutY(32);
 
             PriceCountText=new FormattedText("$"+DoubleFormatter.format(draft.Price) , -1.0, 0, false);
-            PriceCountText.setFill(TextColor2);
+            PriceCountText.setFill(Color2);
             PriceCountText.setFont(CustomFont.createFont("Raleway - SemiBold", "ttf", 12));
             PriceCountText.setPrefWrapLength(60);
             PriceCountText.setLayoutX(94); PriceCountText.setLayoutY(68);
@@ -337,6 +340,7 @@ public class OrderPage extends Pane
                     {
                         customer.Receipt.remove(drinkconst);
                         displayOrder();
+                        countTotalPrice();
                     }
                 }
             );
@@ -407,7 +411,7 @@ public class OrderPage extends Pane
         TotalPriceNumber=null;
         TotalPriceTag.getChildren().remove(1);
         TotalPriceNumber=new Text("$"+DoubleFormatter.format(TotalPrice));
-        TotalPriceNumber.setFill(TextColor);
+        TotalPriceNumber.setFill(Color1);
         TotalPriceNumber.setFont(CustomFont.createFont("Raleway - SemiBold", "ttf", 13));
         TotalPriceNumber.setWrappingWidth(60);
         TotalPriceNumber.setTextAlignment(TextAlignment.RIGHT);
@@ -423,15 +427,15 @@ public class OrderPage extends Pane
         this.drink=drink;
 
         //HavingOrdersSettingUp:
-        UpperLine=new Rectangle(184, 1, TextColor);
+        UpperLine=new Rectangle(184, 1, Color1);
         UpperLine.setLayoutX(16);
-        LowerLine=new Rectangle(184, 1, TextColor);
+        LowerLine=new Rectangle(184, 1, Color1);
         LowerLine.setLayoutX(16);
 
         TotalPriceTitle=new FormattedText("Total Price :", -1.0, 0, false);
         TotalPriceTitle.setPrefWidth(68);
         TotalPriceTitle.setFont(CustomFont.createFont("Raleway - SemiBold", "ttf", 12));
-        TotalPriceTitle.setFill(TextColor);
+        TotalPriceTitle.setFill(Color1);
 
         TotalPriceNumber=new Text();
 
@@ -445,7 +449,7 @@ public class OrderPage extends Pane
         OrderButtonTitle=new FormattedText("Order", -1.0, 0, true);
         OrderButtonTitle.setPrefWidth(38); OrderButtonTitle.setPrefHeight(14);
         OrderButtonTitle.setFont(CustomFont.createFont("Raleway - Bold", "ttf", 14));
-        OrderButtonTitle.setFill(TextColor);
+        OrderButtonTitle.setFill(Color1);
         OrderButtonFrame=new Button();
         OrderButtonFrame.setStyle("-fx-border-color: transparent; -fx-background-color: transparent;");
         OrderButtonFrame.setMinHeight(14); OrderButtonFrame.setPrefWidth(38); OrderButtonFrame.setPrefHeight(14);
@@ -480,7 +484,7 @@ public class OrderPage extends Pane
         CancelAllButtonTitle=new FormattedText("Cancel all", -1.0, 0, true);
         CancelAllButtonTitle.setPrefWidth(66); CancelAllButtonTitle.setPrefHeight(14);
         CancelAllButtonTitle.setFont(CustomFont.createFont("Raleway - Bold", "ttf", 14));
-        CancelAllButtonTitle.setFill(TextColor);
+        CancelAllButtonTitle.setFill(Color1);
         CancelAllButtonFrame=new Button();
         CancelAllButtonFrame.setStyle("-fx-border-color: transparent; -fx-background-color: transparent;");
         CancelAllButtonFrame.setMinHeight(14); CancelAllButtonFrame.setPrefWidth(66); CancelAllButtonFrame.setPrefHeight(14);
@@ -509,7 +513,7 @@ public class OrderPage extends Pane
         ReceiptPaneSideTitle=new FormattedText("You have not picked any drink yet! Visit the Menu page to pick one.", -1.0, 0, false);
         ReceiptPaneSideTitle.setPrefWrapLength(190);
         ReceiptPaneSideTitle.setFont(CustomFont.createFont("Raleway - SemiBold", "ttf", 10));
-        ReceiptPaneSideTitle.setFill(TextColor);
+        ReceiptPaneSideTitle.setFill(Color1);
         ReceiptPaneSideTitle.setLayoutX(12); ReceiptPaneSideTitle.setLayoutY(10);
     }
 
@@ -528,12 +532,12 @@ public class OrderPage extends Pane
         PageQuote.setPrefWidth(88); PageQuote.setPrefHeight(42);
         PageQuote.setFont(CustomFont.createFont("Raleway - SemiBoldItalic", "ttf", 12));
         PageQuote.setPrefWrapLength(88);
-        PageQuote.setFill(TextColor);
+        PageQuote.setFill(Color1);
         PageQuote.setEffect(new DropShadow(BlurType.GAUSSIAN, Color.rgb(0 ,0 , 0, 0.15), 10, 0, 0, 4));
         PageQuote.setLayoutX(23); PageQuote.setLayoutY(42);
 
         //ReceiptButton:
-        ReceiptButtonHolder=new Rectangle(24, 24, TextColor);
+        ReceiptButtonHolder=new Rectangle(24, 24, Color1);
         ReceiptButtonHolder.setArcWidth(12); ReceiptButtonHolder.setArcHeight(12);
         ReceiptButtonHolder.setLayoutX(0); ReceiptButtonHolder.setLayoutY(0);
 
@@ -565,7 +569,7 @@ public class OrderPage extends Pane
         //ReceiptPane:
         ReceiptPaneHolder=new Rectangle();
         ReceiptPaneHolder.setWidth(216);
-        ReceiptPaneHolder.setFill(TextColor3);
+        ReceiptPaneHolder.setFill(Color3);
         ReceiptPaneHolder.setLayoutX(0); ReceiptPaneHolder.setLayoutY(0);
 
         ReceiptPane=new Pane();
@@ -600,7 +604,7 @@ public class OrderPage extends Pane
         //Layout:
         this.getChildren().addAll(BlurBox);
         this.setLayoutX(0); this.setLayoutY(0);
-	}
+    }
 
     //Constructor:
     public OrderPage(UserInformation customer, DrinkMap drink)

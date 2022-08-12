@@ -45,7 +45,7 @@ public class HomePage extends Pane
 
     private UserInformation customer;
     private DrinkMap drink;
-    private final Color TextColor=Color.rgb(71, 43, 43, 1.0);
+    private final Color Color1=Color.rgb(71, 43, 43, 1.0);
     private int NewsImagePointer=1, NewsImageCount;
     private ArrayList<Image> NewsStorage=new ArrayList<Image>();
 
@@ -54,7 +54,6 @@ public class HomePage extends Pane
         private Rectangle Holder;
         private ImageView BestSellerImage;
         private FormattedText BestSellerName, BestSellerQuote, BestSellerPrice;
-        private final Color TextColor=Color.rgb(71, 43, 43, 1.0);
 
         public BestSellerPane(Image image, String name, String quote, String price)
         {
@@ -70,7 +69,7 @@ public class HomePage extends Pane
 
             BestSellerName=new FormattedText(name, -1.0, 0, false);
             BestSellerName.setFont(CustomFont.createFont("Raleway - SemiBold", "ttf", 11));
-            BestSellerName.setFill(TextColor);
+            BestSellerName.setFill(Color1);
             BestSellerName.setLayoutX(95); BestSellerName.setLayoutY(13);
 
             BestSellerQuote=new FormattedText(quote, -0.5, 1.0, false);
@@ -81,7 +80,7 @@ public class HomePage extends Pane
 
             BestSellerPrice=new FormattedText(price, -1.0, 0, false);
             BestSellerPrice.setFont(CustomFont.createFont("Raleway - SemiBold", "ttf", 11));
-            BestSellerPrice.setFill(TextColor);
+            BestSellerPrice.setFill(Color1);
             BestSellerPrice.setLayoutX(95); BestSellerPrice.setLayoutY(71);
 
             this.getChildren().addAll(Holder, BestSellerImage, BestSellerName, BestSellerQuote, BestSellerPrice);
@@ -113,7 +112,7 @@ public class HomePage extends Pane
 
         //News:
         NewsImageCountCircle.setRadius(4);
-        NewsImageCountCircle.setFill(TextColor);
+        NewsImageCountCircle.setFill(Color1);
         NewsImageCountCircle.setEffect(new DropShadow(BlurType.GAUSSIAN, Color.rgb(0 ,0 , 0, 0.2), 2, 0, 0, 2));
         try {NewsStorage.add(new Image(new FileInputStream("materials/image/New1.png")));}
         catch (FileNotFoundException f) {}
@@ -179,7 +178,7 @@ public class HomePage extends Pane
         PageTitle=new FormattedText("Welcome", -1.0, 0, false);
         PageTitle.setFont(CustomFont.createFont("Raleway - ExtraBold", "ttf", 28));
         PageTitle.setPrefWrapLength(170);
-        PageTitle.setFill(TextColor);
+        PageTitle.setFill(Color1);
         PageTitle.setEffect(new DropShadow(BlurType.GAUSSIAN, Color.rgb(0 ,0 , 0, 0.2), 4, 0, 0, 4));
         PageTitle.setLayoutX(23); PageTitle.setLayoutY(44);
 
@@ -251,11 +250,11 @@ public class HomePage extends Pane
         //BestSellersTitle:
         BestSellersTitleText=new FormattedText("This week's best-sellers", -1.0, 0, false);
         BestSellersTitleText.setFont(CustomFont.createFont("Raleway - Bold", "ttf", 16));
-        BestSellersTitleText.setFill(TextColor);
+        BestSellersTitleText.setFill(Color1);
         BestSellersTitleText.setLayoutX(12); BestSellersTitleText.setLayoutY(1);
-        Rectangle LeftLine=new Rectangle(12, 1, TextColor);
+        Rectangle LeftLine=new Rectangle(12, 1, Color1);
         LeftLine.setLayoutX(0); LeftLine.setLayoutY(11);
-        Rectangle RightLine=new Rectangle(42, 1, TextColor);
+        Rectangle RightLine=new Rectangle(42, 1, Color1);
         RightLine.setLayoutX(190); RightLine.setLayoutY(11);
         BestSellersTitle=new Pane(LeftLine, BestSellersTitleText, RightLine);
         BestSellersTitle.setLayoutX(16); BestSellersTitle.setLayoutY(272);

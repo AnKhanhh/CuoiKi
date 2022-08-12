@@ -1,5 +1,6 @@
 package com.example.cuoiki.Formatting;
 
+import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.paint.Color;
@@ -8,8 +9,11 @@ import javafx.scene.text.Text;
 
 public class FormattedText extends FlowPane
 {
+    private ObservableList CharacterList=this.getChildren();
+
     public FormattedText(String InputText, double LetterSpacing, double LineSpacing, boolean isUnderline)
     {
+        if(InputText==null) {InputText="";}
         setText(InputText, isUnderline);
         setHgap(LetterSpacing);
         setVgap(LineSpacing);
@@ -22,17 +26,17 @@ public class FormattedText extends FlowPane
         {
             for(int count=0; count<InputText.length(); count++)
             {
-                Text temp=new Text("" + InputText.charAt(count));
-                this.getChildren().add(temp);
+                Text temp=new Text(""+InputText.charAt(count));
+                CharacterList.add(temp);
             }
         }
         else
         {
             for(int count=0; count<InputText.length(); count++)
             {
-                Text temp=new Text("" + InputText.charAt(count));
+                Text temp=new Text(""+InputText.charAt(count));
                 temp.setUnderline(true);
-                this.getChildren().add(temp);
+                CharacterList.add(temp);
             }
         }
     }

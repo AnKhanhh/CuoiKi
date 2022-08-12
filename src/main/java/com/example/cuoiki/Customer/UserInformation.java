@@ -10,66 +10,78 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class UserInformation {
-	//PersonalInformation:
-	public boolean isLoggedIn;
-	public String Password;
-	public Image UserImage;
-	public String EditedName, FullName, PhoneNumber, Email;
-	public int UserLevel;
-	public double UserLevelProgress;
-	public boolean TurnNotifications, Previews, Vibrations;
+public class UserInformation
+{
+    //PersonalInformation:
+    public boolean isLoggedIn;
+    public String Password;
+    public Image UserImage;
+    public String EditedName, FullName, PhoneNumber, Email;
+    public int UserLevel;
+    public double UserLevelProgress;
+    public boolean TurnNotifications, Previews, Vibrations;
 
-	public HashMap<DrinkConst, ReceiptDraft> Receipt;
+    public void processEditedName()
+    {
+        int fullname_length=FullName.length()-1;
 
-	//Constructor:
-	public UserInformation() {
-		isLoggedIn = false;
-		try {
-			UserImage = new Image(new FileInputStream("materials/image/BlankAvatar.png"));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		Password = "";
-		EditedName = "(none)";
-		FullName = "(none)";
-		PhoneNumber = "(none)";
-		Email = "(none)";
-		UserLevel = 0;
-		UserLevelProgress = 0;
-		TurnNotifications = false;
-		Previews = false;
-		Vibrations = false;
+        if(fullname_length==0)
+        {
+            EditedName="(none)";
+            return;
+        }
 
-		Receipt = new HashMap<DrinkConst, ReceiptDraft>();
-	}
+        int index=fullname_length;
+        while(index>-1)
+        {
+            if(FullName.charAt(index)==' ') {break;}
+            index=index-1;
+        }
+        EditedName=FullName.substring(index, fullname_length);
+    }
 
-	public void addtoReceipt(DrinkConst drinkconst, ReceiptDraft draft) {
-		if (draft.Price != 0) {
-			if (Receipt.containsKey(drinkconst)) {
-				ReceiptDraft olddraft = Receipt.get(drinkconst);
-				draft.MCount += olddraft.MCount;
-				draft.LCount += olddraft.LCount;
-				draft.Price += olddraft.Price;
-			}
-			Receipt.put(drinkconst, draft);
-		}
-	}
+    //Receipt:
+    public static class ReceiptDraft
+    {
+        public Image DrinkImage;
+        public String DrinkType, DrinkName;
+        public int MCount, LCount;
+        public double Price;
 
-	//Receipt:
-	public static class ReceiptDraft implements Serializable {
-		public Image DrinkImage;
-		public String DrinkType, DrinkName;
-		public int MCount, LCount;
-		public double Price;
+        public ReceiptDraft(Image drinkimage, String drinktype, String drinkname)
+        {
+            DrinkImage=drinkimage;
+            DrinkType=drinktype; DrinkName=drinkname;
+            MCount=0; LCount=0;
+            Price=0;
+        }
+    }
+    public HashMap<DrinkConst, ReceiptDraft> Receipt;
+    public void addtoReceipt(DrinkConst drinkconst, ReceiptDraft draft)
+    {
+        if(draft.Price!=0)
+        {
+            if(Receipt.containsKey(drinkconst))
+            {
+                ReceiptDraft olddraft=Receipt.get(drinkconst);
+                draft.MCount+=olddraft.MCount;
+                draft.LCount+=olddraft.LCount;
+                draft.Price+=olddraft.Price;
+            }
+            Receipt.put(drinkconst, draft);
+        }
+    }
 
-		public ReceiptDraft(Image drinkimage, String drinktype, String drinkname) {
-			DrinkImage = drinkimage;
-			DrinkType = drinktype;
-			DrinkName = drinkname;
-			MCount = 0;
-			LCount = 0;
-			Price = 0;
-		}
-	}
+    //Constructor:
+    public UserInformation()
+    {
+        isLoggedIn=false;
+        try {UserImage=new Image(new FileInputStream("materials/image/BlankAvatar.png"));}
+        catch(FileNotFoundException e) {}
+        Password="";
+        EditedName="(none)"; FullName=""; PhoneNumber=""; Email="";
+        UserLevel=0; UserLevelProgress=0;
+        TurnNotifications=false; Previews=false; Vibrations=false;
+        Receipt=new HashMap<DrinkConst, ReceiptDraft>();
+    }
 }

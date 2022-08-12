@@ -4,8 +4,11 @@ import com.example.cuoiki.Customer.UserInformation;
 import com.example.cuoiki.Drink.DrinkMap;
 import com.example.cuoiki.Formatting.FormattedText;
 import com.example.cuoiki.Formatting.CustomFont;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -15,6 +18,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 import java.io.DataOutputStream;
 import java.io.FileInputStream;
@@ -45,20 +52,36 @@ public class ChatPage extends Pane
     private Pane MainPage;
     private ImageView BlurredBackground;
     private FormattedText PageTitle, Quote;
-	private TextField TypeField;
-	private Button TypeFieldButton;
+    private Pane TypingBox;
+    private Rectangle TypingBoxHolder;
+    private Pane ChooseImageButton;
+    private Circle ChooseImageButtonHolder;
+    private ImageView ChooseImageButtonIcon;
+    private Button ChooseImageButtonFrame;
+    private TextField TypeField;
+    private Pane SendButton;
+    private ImageView SendButtonIcon;
+    private Button SendButtonFrame;
 
     private UserInformation customer;
     private DrinkMap drink;
     private final Color TextColor=Color.rgb(71, 43, 43, 1.0);
-
+    private final Color TextColor2=Color.rgb(252, 247, 247);
+    private final Color TextColor3=Color.rgb(252, 255, 249);
+    private Stage stage;
+    private FileChooser filechooser;
 
     //Setup:
     public void setup(UserInformation customer, DrinkMap drink)
     {
+        filechooser=new FileChooser();
+        filechooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("JPG", "*.jpg"), new FileChooser.ExtensionFilter("PNG", "*.png"));
+
         //SetCustomer:
         this.customer=customer;
         this.drink=drink;
+
+
     }
 
     //Build:
@@ -87,51 +110,121 @@ public class ChatPage extends Pane
         Quote.setEffect(new DropShadow(BlurType.GAUSSIAN, Color.rgb(0 ,0 , 0, 0.15), 4, 0, 0, 4));
         Quote.setLayoutX(23); Quote.setLayoutY(84);
 
-		//TypeField:
-		TypeField=new TextField();
-		TypeField.setPrefWidth(232); TypeField.setPrefHeight(32);
-		TypeField.setLayoutX(16); TypeField.setLayoutY(440);
-		TypeField.setFont(CustomFont.createFont("Raleway - Medium", "ttf", 12));
+        //TypingBox:
+        TypingBoxHolder=new Rectangle(232, 32, TextColor2);
+        TypingBoxHolder.setArcWidth(32); TypingBoxHolder.setArcHeight(32);
+        TypingBoxHolder.setLayoutX(16); TypingBoxHolder.setLayoutY(8);
 
-		TypeFieldButton=new Button();
-		TypeFieldButton.setPrefWidth(32); TypeFieldButton.setPrefHeight(32);
-		TypeFieldButton.setLayoutX(216); TypeFieldButton.setLayoutY(440);
-		TypeFieldButton.setOnAction
-				(
-						new EventHandler<ActionEvent>()
-						{
-							@Override
-							public void handle(ActionEvent e)
-							{
-								try {
-									msgout = TypeField.getText().trim();
-									TypeField.setText(null);
-									doutChat.writeUTF(msgout);
-									dout.writeUTF("message");
-									dout.flush();
-									System.out.println("msg sent");
-								} catch (IOException ex) {
-									ex.printStackTrace();
-								}
-							}
+        ChooseImageButtonHolder=new Circle(12, TextColor);
+        ChooseImageButtonHolder.setLayoutX(12); ChooseImageButtonHolder.setLayoutY(12);
+        try {ChooseImageButtonIcon=new ImageView(new Image(new FileInputStream("materials/image/CameraIcon.png")));}
+        catch(FileNotFoundException f) {}
+        ChooseImageButtonIcon.setFitWidth(12); ChooseImageButtonIcon.setFitHeight(12);
+        ChooseImageButtonIcon.setSmooth(true);
+        ChooseImageButtonIcon.setCache(true);
+        ChooseImageButtonIcon.setLayoutX(6); ChooseImageButtonIcon.setLayoutY(6);
+        ChooseImageButtonFrame=new Button();
+        ChooseImageButtonFrame.setStyle("-fx-border-color: transparent; -fx-background-color: transparent; -fx-background-radius: 12px;");
+        ChooseImageButtonFrame.setMinWidth(24); ChooseImageButtonFrame.setMinHeight(24); ChooseImageButtonFrame.setPrefWidth(24); ChooseImageButtonFrame.setPrefHeight(24);
+        ChooseImageButtonFrame.setLayoutX(0); ChooseImageButtonFrame.setLayoutY(0);
+        ChooseImageButtonFrame.setOnAction
+        (
+            new EventHandler<ActionEvent>()
+            {
+                @Override
+                public void handle(ActionEvent e)
+                {
+                    try
+                    {
+                        String imagepath=filechooser.showOpenDialog(stage).getAbsolutePath();
+                        if(imagepath!=null) {}
+                    }
+                    catch(Exception ex) {}
+                }
+            }
+        );
+        ChooseImageButton=new Pane(ChooseImageButtonHolder, ChooseImageButtonIcon, ChooseImageButtonFrame);
+        ChooseImageButton.setPrefWidth(24); ChooseImageButton.setPrefHeight(24);
+        ChooseImageButton.setLayoutX(20); ChooseImageButton.setLayoutY(12);
+
+        TypeField=new TextField();
+        TypeField.setPromptText("Type something here...");
+        TypeField.setStyle("-fx-border-color: transparent; -fx-background-color: transparent; -fx-background-radius: 8px; -fx-text-fill: #472B2B; -fx-prompt-text-fill: #C5C5C5;");
+        TypeField.setFont(CustomFont.createFont("Raleway - Medium", "ttf", 11));
+        TypeField.setAlignment(Pos.CENTER_LEFT);
+        TypeField.setPrefWidth(187.5); TypeField.setPrefHeight(24);
+        TypeField.setLayoutX(40.5); TypeField.setLayoutY(12);
+        TypeField.focusedProperty().addListener
+        (
+            new ChangeListener<Boolean>()
+            {
+                @Override
+                public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue)
+                {
+                    if(newPropertyValue) {TypeField.setPromptText("");}
+                    else {TypeField.setPromptText("Type something here...");}
+                }
+            }
+        );
+
+        try {SendButtonIcon=new ImageView(new Image(new FileInputStream("materials/image/SendIcon.png")));}
+        catch(FileNotFoundException f) {}
+        SendButtonIcon.setFitWidth(12); SendButtonIcon.setFitHeight(12);
+        SendButtonIcon.setSmooth(true);
+        SendButtonIcon.setCache(true);
+        SendButtonIcon.setLayoutX(1); SendButtonIcon.setLayoutY(1);
+        SendButtonFrame=new Button();
+        SendButtonFrame.setStyle("-fx-border-color: transparent; -fx-background-color: transparent;");
+        SendButtonFrame.setMinWidth(14); SendButtonFrame.setMinHeight(14); SendButtonFrame.setPrefWidth(14); SendButtonFrame.setPrefHeight(14);
+        SendButtonFrame.setLayoutX(0); SendButtonFrame.setLayoutY(0);
+        SendButtonFrame.setOnAction
+        (
+            new EventHandler<ActionEvent>()
+            {
+                @Override
+                public void handle(ActionEvent e)
+                {
+                    String InputText=TypeField.getText().trim();
+                    if(InputText!=null)
+                    {
+						try {
+							msgout = TypeField.getText().trim();
+							TypeField.setText(null);
+							doutChat.writeUTF(msgout);
+							dout.writeUTF("message");
+							dout.flush();
+							System.out.println("msg sent");
+						} catch (IOException ex) {
+							ex.printStackTrace();
 						}
-				);
+                    }
+                }
+            }
+        );
+        SendButton=new Pane(SendButtonIcon, SendButtonFrame);
+        SendButton.setPrefWidth(14); SendButton.setPrefHeight(14);
+        SendButton.setLayoutX(225); SendButton.setLayoutY(17);
+
+        TypingBox=new Pane(TypingBoxHolder, ChooseImageButton, TypeField, SendButton);
+        TypingBox.setPrefWidth(264); TypingBox.setPrefHeight(48);
+        TypingBox.setEffect(new DropShadow(BlurType.GAUSSIAN, Color.rgb(0 ,0 , 0, 0.10), 8, 0, 0, 6));
+        TypingBox.setLayoutX(0); TypingBox.setLayoutY(432);
 
 
         //MainPage:
-        MainPage=new Pane(PageTitle, Quote, TypeField, TypeFieldButton);
+        MainPage=new Pane(PageTitle, Quote);
         ScrollMainPage=new ScrollPane(MainPage);
         ScrollMainPage.setStyle("-fx-background: transparent; -fx-background-color: transparent; -fx-unit-increment: 10; -fx-block-increment: 50;");
         ScrollMainPage.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         ScrollMainPage.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        ScrollMainPage.setPrefWidth(264); ScrollMainPage.setPrefHeight(480);
+        ScrollMainPage.setPrefWidth(264); ScrollMainPage.setPrefHeight(432);
         ScrollMainPage.setLayoutX(0); ScrollMainPage.setLayoutY(0);
 
         //NavigationBar:
         NavigationBar NavBar=new NavigationBar(NavigationBar.PagePicker.CHAT, customer, drink);
 
         //Layout:
-        this.getChildren().addAll(BlurredBackground, ScrollMainPage, NavBar);
+        this.getChildren().addAll(BlurredBackground, ScrollMainPage, TypingBox, NavBar);
         this.setLayoutX(0); this.setLayoutY(0);
 	}
 
