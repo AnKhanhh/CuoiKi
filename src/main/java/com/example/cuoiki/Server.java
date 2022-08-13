@@ -7,12 +7,14 @@ import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Server {
 
 	public Server() {
 		ServerSocket ssCmd=null, ssMsg=null, ssObj=null;
 		Socket sObj, sCmd, sMsg;
+		String msg;
 		try {
 			ssCmd = new ServerSocket(4000);
 			ssMsg = new ServerSocket(8000);
@@ -21,19 +23,24 @@ public class Server {
 			System.out.println("ERROR: failed to setup connection!");
 		}
 
-		while (true){
-			try {
-				sCmd=ssCmd.accept();
-				sMsg=ssMsg.accept();
-				sObj=ssObj.accept();
-				System.out.println("Established new connections.");
-				ServerThread serverThread = new ServerThread(sCmd,sObj,sMsg);
-				serverThread.start();
-			} catch (IOException e) {
-				System.out.println("Failed to establish new connections");
-			} catch (NullPointerException ex){
-				ex.printStackTrace();
-			}
+//		while (true){
+		try {
+			sCmd=ssCmd.accept();
+			sMsg=ssMsg.accept();
+			sObj=ssObj.accept();
+			System.out.println("Established new connections.");
+			ServerThread serverThread = new ServerThread(sCmd,sObj,sMsg);
+			serverThread.start();
+		} catch (IOException e) {
+			System.out.println("Failed to establish new connections");
+		} catch (NullPointerException ex){
+			ex.printStackTrace();
+		}
+//		}
+		while (true) {
+			Scanner scanner = new Scanner(System.in);
+			msg = scanner.nextLine();
+			System.out.println("Server:" + msg);
 		}
 	}
 
