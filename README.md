@@ -1,7 +1,7 @@
 # CuoiKi
 repo for semester Java Project
 
-## Tech stacck:
+## Tech stack:
 - Javafx
 - Xampp
 - phpMyAdmin
