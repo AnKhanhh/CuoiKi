@@ -1,13 +1,9 @@
 package com.example.cuoiki.Customer;
 
 import com.example.cuoiki.Drink.DrinkConst;
-import com.example.cuoiki.SerialReceipt;
 import javafx.scene.image.Image;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class UserInformation
@@ -16,7 +12,7 @@ public class UserInformation
     public boolean isLoggedIn;
     public String Password;
     public Image UserImage;
-    public String EditedName, FullName, PhoneNumber, Email;
+    public String EditedName, FullName, PhoneNumber, Email,userName;
     public int UserLevel;
     public double UserLevelProgress;
     public boolean TurnNotifications, Previews, Vibrations;

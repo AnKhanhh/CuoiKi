@@ -1,5 +1,10 @@
 package com.example.cuoiki;
-
+import Hashing.*;
+import javax.swing.JOptionPane;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import com.example.cuoiki.Customer.UserInformation;
 import com.example.cuoiki.Drink.DrinkMap;
 import com.example.cuoiki.Formatting.*;
@@ -205,7 +210,7 @@ public class ProfilePage extends Pane
     private FormattedText SignUpAlert1;
     private FormattedText SignUpAlert2;
 
-    private UserInformation customer;
+    public static UserInformation customer;
     private DrinkMap drink;
     private DecimalFormat DoubleFormatter=new DecimalFormat("0.00");
     private final Color Color1=Color.rgb(71, 43, 43);
@@ -310,8 +315,8 @@ public class ProfilePage extends Pane
 
         NavigateButtonsTitle.setLayoutY(326);
         NavigateButtonsFrame.setLayoutY(326);
-
-        OldFullNameTitle= new FormattedText("Full name :", -0.5, 0, false);
+        if (customer.FullName== null) customer.FullName=" ";
+        OldFullNameTitle= new FormattedText("Current Full name :", -0.5, 0, false);
         OldFullNameTitle.setFont(CustomFont.createFont("Raleway - Medium", "ttf", 8.5));
         OldFullNameTitle.setFill(Color2);
         OldFullNameTitle.setLayoutX(8); OldFullNameTitle.setLayoutY(4);
@@ -319,8 +324,9 @@ public class ProfilePage extends Pane
         OldFullNameTypeBox.setArcWidth(16); OldFullNameTypeBox.setArcHeight(16);
         OldFullNameTypeBox.setLayoutX(0); OldFullNameTypeBox.setLayoutY(16);
         OldFullNameTypeField=new TextField();
-        OldFullNameTypeField.setPromptText("Type full name here...");
-        OldFullNameTypeField.setStyle("-fx-border-color: transparent; -fx-background-color: transparent; -fx-background-radius: 8px; -fx-text-fill: #472B2B; -fx-prompt-text-fill: #C5C5C5;");
+        OldFullNameTypeField.setText(customer.FullName);
+        OldFullNameTypeField.setEditable(false);
+        OldFullNameTypeField.setStyle("-fx-border-color: transparent; -fx-background-color: transparent; -fx-background-radius: 8px; -fx-text-fill: #472B2B; ");
         OldFullNameTypeField.setFont(CustomFont.createFont("Raleway - Medium", "ttf", 8));
         OldFullNameTypeField.setAlignment(Pos.CENTER_LEFT);
         OldFullNameTypeField.setPrefWidth(136); OldFullNameTypeField.setPrefHeight(20);
@@ -355,7 +361,7 @@ public class ProfilePage extends Pane
         );
         OldFullName=new Pane(OldFullNameTitle, OldFullNameTypeBox, OldFullNameTypeField);
         OldFullName.setPrefWidth(136); OldFullName.setPrefHeight(40);
-
+        if (customer.FullName==null) customer.FullName = "";
         NewFullNameTitle= new FormattedText("New full name :", -0.5, 0, false);
         NewFullNameTitle.setFont(CustomFont.createFont("Raleway - Medium", "ttf", 8.5));
         NewFullNameTitle.setFill(Color2);
@@ -364,7 +370,7 @@ public class ProfilePage extends Pane
         NewFullNameTypeBox.setArcWidth(16); NewFullNameTypeBox.setArcHeight(16);
         NewFullNameTypeBox.setLayoutX(0); NewFullNameTypeBox.setLayoutY(16);
         NewFullNameTypeField=new TextField();
-        NewFullNameTypeField.setPromptText("Type new full name here...");
+        NewFullNameTypeField.setPromptText("Type full name here...");
         NewFullNameTypeField.setStyle("-fx-border-color: transparent; -fx-background-color: transparent; -fx-background-radius: 8px; -fx-text-fill: #472B2B; -fx-prompt-text-fill: #C5C5C5;");
         NewFullNameTypeField.setFont(CustomFont.createFont("Raleway - Medium", "ttf", 8));
         NewFullNameTypeField.setAlignment(Pos.CENTER_LEFT);
@@ -421,10 +427,41 @@ public class ProfilePage extends Pane
                         DisplayedFullName.setFill(Color1);
                         DisplayedFullName.setLayoutX(57); DisplayedFullName.setLayoutY(7);
                         FullNameOption.getChildren().add(2, DisplayedFullName);
+                        try {                   
+                            String url = "jdbc:mysql://localhost:3306/javadatabase";
+                            String user = "root";
+                            String password = "";
+                          
+                            
+                                try(Connection conn= DriverManager.getConnection(url, user, password)) {                                
+                                System.out.println("ket noi thanh cong");
+                                System.out.println(conn.getCatalog());
+                                System.out.println(customer.Password);
+                               
+                                String SqlFullNameSet = "update `tblseller` Set `Họ và tên`=? where `Tên Đăng Nhập`=?";
+                                PreparedStatement stmt = conn.prepareStatement(SqlFullNameSet);
+                                stmt.setString(1, NewFullNameTypeField.getText());
+                                stmt.setString(2, customer.userName);
+                                stmt.execute();
+                                stmt.close();
+                                conn.close();
+                                } catch (Exception a) {
+                                    //TODO: handle exception
+                                    a.printStackTrace();
+                                }
+                                deleteChangePasswordPane();
+                           
+                        } catch (Exception e1) {
+                            // TODO Auto-generated catch block
+                            e1.printStackTrace();
+                        }
+                        
                         deleteChangeFullNamePane();
                     }
                 }
-            }
+            
+                    }
+                
         );
 
         ChangingCancelButtonFrame.setOnAction
@@ -473,7 +510,7 @@ public class ProfilePage extends Pane
 
         NavigateButtonsTitle.setLayoutY(326);
         NavigateButtonsFrame.setLayoutY(326);
-
+        if (customer.PhoneNumber==null) customer.PhoneNumber= " ";
         OldPhoneNumberTitle= new FormattedText("Phone number :", -0.5, 0, false);
         OldPhoneNumberTitle.setFont(CustomFont.createFont("Raleway - Medium", "ttf", 8.5));
         OldPhoneNumberTitle.setFill(Color2);
@@ -482,8 +519,9 @@ public class ProfilePage extends Pane
         OldPhoneNumberTypeBox.setArcWidth(16); OldPhoneNumberTypeBox.setArcHeight(16);
         OldPhoneNumberTypeBox.setLayoutX(0); OldPhoneNumberTypeBox.setLayoutY(16);
         OldPhoneNumberTypeField=new TextField();
-        OldPhoneNumberTypeField.setPromptText("Type number here...");
-        OldPhoneNumberTypeField.setStyle("-fx-border-color: transparent; -fx-background-color: transparent; -fx-background-radius: 8px; -fx-text-fill: #472B2B; -fx-prompt-text-fill: #C5C5C5;");
+        OldPhoneNumberTypeField.setText(customer.PhoneNumber);
+        OldPhoneNumberTypeField.setEditable(false);
+        OldPhoneNumberTypeField.setStyle("-fx-border-color: transparent; -fx-background-color: transparent; -fx-background-radius: 8px; -fx-text-fill: #472B2B; ");
         OldPhoneNumberTypeField.setFont(CustomFont.createFont("Raleway - Medium", "ttf", 8));
         OldPhoneNumberTypeField.setAlignment(Pos.CENTER_LEFT);
         OldPhoneNumberTypeField.setPrefWidth(136); OldPhoneNumberTypeField.setPrefHeight(20);
@@ -571,8 +609,8 @@ public class ProfilePage extends Pane
                 @Override
                 public void handle(ActionEvent e)
                 {
-                    if(OldPhoneNumberTypeField.getText().compareTo(customer.PhoneNumber)==0)
-                    {
+                    
+                    
                         customer.PhoneNumber=fixedString(NewPhoneNumberTypeField.getText());
                         DisplayedPhoneNumber=null;
                         PhoneNumberOption.getChildren().remove(2);
@@ -584,8 +622,34 @@ public class ProfilePage extends Pane
                         DisplayedPhoneNumber.setFill(Color1);
                         DisplayedPhoneNumber.setLayoutX(57); DisplayedPhoneNumber.setLayoutY(7);
                         PhoneNumberOption.getChildren().add(2, DisplayedPhoneNumber);
+                        try {
+                        
+                            String url = "jdbc:mysql://localhost:3306/javadatabase";
+                            String user = "root";
+                            String password = "";
+                                                      
+                                try(Connection conn= DriverManager.getConnection(url, user, password)) {                                
+                                System.out.println("ket noi thanh cong");
+                                                           
+                                String SqlPhoneSet = "update `tblseller` Set `SĐT`='?' where `Tên Đăng Nhập`=?";
+                                PreparedStatement stmt = conn.prepareStatement(SqlPhoneSet);
+                                stmt.setString(1, NewPhoneNumberTypeField.getText());
+                                stmt.setString(2, customer.userName);
+                                stmt.execute();
+                                stmt.close();
+                                conn.close();
+                                } catch (Exception a) {
+                                    //TODO: handle exception
+                                    a.printStackTrace();
+                                }
+                                deleteChangePasswordPane();
+                           
+                        } catch (Exception e1) {
+                            // TODO Auto-generated catch block
+                            e1.printStackTrace();
+                        }
                         deleteChangePhoneNumberPane();
-                    }
+                    
                 }
             }
         );
@@ -618,9 +682,9 @@ public class ProfilePage extends Pane
         NewPhoneNumberTypeField=null;
         NewPhoneNumber=null;
         PhoneNumberTyping=null;
-        ChangingPane.getChildren().remove(7);
+        ChangingPane.getChildren().remove(7)    ;
         BlurBox.setEffect(null);
-        this.getChildren().remove(1);
+        this.getChildren().remove(0);
     }
 
     //ChangeEmail:
@@ -636,8 +700,10 @@ public class ProfilePage extends Pane
 
         NavigateButtonsTitle.setLayoutY(326);
         NavigateButtonsFrame.setLayoutY(326);
+        
+    if (customer.Email== null) customer.Email = " ";
 
-        OldEmailTitle= new FormattedText("Email :", -0.5, 0, false);
+        OldEmailTitle= new FormattedText("Current Email :", -0.5, 0, false);
         OldEmailTitle.setFont(CustomFont.createFont("Raleway - Medium", "ttf", 8.5));
         OldEmailTitle.setFill(Color2);
         OldEmailTitle.setLayoutX(8); OldEmailTitle.setLayoutY(4);
@@ -645,8 +711,9 @@ public class ProfilePage extends Pane
         OldEmailTypeBox.setArcWidth(16); OldEmailTypeBox.setArcHeight(16);
         OldEmailTypeBox.setLayoutX(0); OldEmailTypeBox.setLayoutY(16);
         OldEmailTypeField=new TextField();
-        OldEmailTypeField.setPromptText("Type email here...");
-        OldEmailTypeField.setStyle("-fx-border-color: transparent; -fx-background-color: transparent; -fx-background-radius: 8px; -fx-text-fill: #472B2B; -fx-prompt-text-fill: #C5C5C5;");
+        OldEmailTypeField.setText(customer.Email);
+        OldEmailTypeField.setEditable(false);
+        OldEmailTypeField.setStyle("-fx-border-color: transparent; -fx-background-color: transparent; -fx-background-radius: 8px; -fx-text-fill: #472B2B;");
         OldEmailTypeField.setFont(CustomFont.createFont("Raleway - Medium", "ttf", 8));
         OldEmailTypeField.setAlignment(Pos.CENTER_LEFT);
         OldEmailTypeField.setPrefWidth(136); OldEmailTypeField.setPrefHeight(20);
@@ -734,22 +801,49 @@ public class ProfilePage extends Pane
                 @Override
                 public void handle(ActionEvent e)
                 {
-                    if(OldEmailTypeField.getText().compareTo(customer.Email)==0)
-                    {
-                        customer.Email=fixedString(NewEmailTypeField.getText());
-                        DisplayedEmail=null;
-                        EmailOption.getChildren().remove(2);
-                        DisplayedEmail=new FormattedText(customer.Email, -1.0, 0, false);
-                        DisplayedEmail.setAlignment(Pos.BASELINE_RIGHT);
-                        DisplayedEmail.setPrefWrapLength(120);
-                        DisplayedEmail.setPrefWidth(120);
-                        DisplayedEmail.setFont(CustomFont.createFont("Raleway - Medium", "ttf", 10));
-                        DisplayedEmail.setFill(Color1);
-                        DisplayedEmail.setLayoutX(57); DisplayedEmail.setLayoutY(7);
-                        EmailOption.getChildren().add(2, DisplayedEmail);
-                        deleteChangeEmailPane();
-                    }
-                }
+
+                            customer.Email=fixedString(NewEmailTypeField.getText());
+                            DisplayedEmail=null;
+                            EmailOption.getChildren().remove(2);
+                            DisplayedEmail=new FormattedText(customer.Email, -1.0, 0, false);
+                            DisplayedEmail.setAlignment(Pos.BASELINE_RIGHT);
+                            DisplayedEmail.setPrefWrapLength(120);
+                            DisplayedEmail.setPrefWidth(120);
+                            DisplayedEmail.setFont(CustomFont.createFont("Raleway - Medium", "ttf", 10));
+                            DisplayedEmail.setFill(Color1);
+                            DisplayedEmail.setLayoutX(57); DisplayedEmail.setLayoutY(7);
+                            EmailOption.getChildren().add(2, DisplayedEmail);
+                            try {
+                            
+                                String url = "jdbc:mysql://localhost:3306/javadatabase";
+                                String user = "root";
+                                String password = "";
+                                if (customer.Email==null) customer.Email = "";
+                              
+                                    try(Connection conn= DriverManager.getConnection(url, user, password)) {                                
+                                    System.out.println("ket noi thanh cong");
+                                    System.out.println(conn.getCatalog());
+                                    System.out.println(customer.Password);
+                                   
+                                    String SqlFullNameSet = "update `tblseller` Set `Email`=? where `Tên Đăng Nhập`=?";
+                                    PreparedStatement stmt = conn.prepareStatement(SqlFullNameSet);
+                                    stmt.setString(1, NewEmailTypeField.getText());
+                                    stmt.setString(2, customer.userName);
+                                    stmt.execute();
+                                    conn.close();
+                                    stmt.close();
+                                    } catch (Exception a) {
+                                        //TODO: handle exception
+                                        a.printStackTrace();
+                                    }
+                                    deleteChangePasswordPane();
+                               
+                            } catch (Exception e1) {
+                                // TODO Auto-generated catch block
+                                e1.printStackTrace();
+                            }
+                            deleteChangeEmailPane();
+                        }
             }
         );
 
@@ -1076,10 +1170,41 @@ public class ProfilePage extends Pane
                 @Override
                 public void handle(ActionEvent e)
                 {
-                    if((OldPasswordTypeField.getText().compareTo(customer.Password)==0)&&(NewPasswordTypeField.getText().compareTo(ReNewPasswordTypeField.getText())==0))
-                    {
-                        customer.Password=fixedString(NewPasswordTypeField.getText());
-                        deleteChangePasswordPane();
+                    ValidatePassword check = new ValidatePassword();
+                    Hashing hashingNewPass = new Hashing();
+                    try {                 
+                        String url = "jdbc:mysql://localhost:3306/javadatabase";
+                        String user = "root";
+                        String password = "";
+                                try(Connection conn= DriverManager.getConnection(url, user, password)) {                                
+                                    System.out.println("ket noi thanh cong");
+                                    System.out.println(conn.getCatalog());
+                                    System.out.println(customer.Password);
+                                    if (check.ValidatePassword(OldPasswordTypeField.getText(), customer.Password)&& NewPasswordTypeField.getText().equals(ReNewPasswordTypeField.getText())){
+                                        System.out.println("Success");
+                                        customer.Password=hashingNewPass.Hashing(NewPasswordTypeField.getText());
+                                        String Sql = "update `tblseller` Set `Password`=? where `Tên Đăng Nhập`=?";
+                                        PreparedStatement ps = conn.prepareStatement(Sql);
+                                        ps.setString(1, customer.Password);
+                                        ps.setString(2, customer.userName);
+                                        ps.execute();
+                                        conn.close();
+                                        ps.close();
+                                    }
+                                    else {
+                                        JOptionPane.showMessageDialog(null, "Please try again", "Try again", JOptionPane.ERROR_MESSAGE);
+                                        return;    
+                                    }
+                            }   catch (Exception a) {
+                                    //TODO: handle exception
+                                    a.printStackTrace();
+                                }
+                            
+                           deleteChangePasswordPane();
+                        
+                    } catch (Exception e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
                     }
                 }
             }
@@ -1141,7 +1266,14 @@ public class ProfilePage extends Pane
                 @Override
                 public void handle(ActionEvent e)
                 {
-                    customer=new UserInformation();
+                    customer.FullName=null;
+                    customer.EditedName="(none)";
+                    customer.Email=null;
+                    customer.Password= null;
+                    customer.PhoneNumber=null;
+                    customer.isLoggedIn=false;
+                    customer.userName=null;
+                   
                     repaintPage();
                     deleteSignOutPane();
                 }
@@ -1266,7 +1398,56 @@ public class ProfilePage extends Pane
                         SigningPane.getChildren().add(SignInAlert);
                     }
                      */
-
+                    String url = "jdbc:mysql://localhost:3306/javadatabase";
+                    String user = "root";
+                    String password = "";
+                    UserInformation user2 = null;
+                    ValidatePassword VP = new ValidatePassword();
+                    // User user;
+                    // String sqlInsert = "INSERT INTO `tblseller`(`Email`, `Password`, `Họ và tên`, `SĐT`,`Số tiền đã mua`) VALUES (?,?,?,?,?)";
+                    String sql = "SELECT * FROM `tblseller` WHERE `Tên đăng nhập`=?";
+            
+                         try(Connection conn= DriverManager.getConnection(url, user, password)){
+                            System.out.println("ket noi thanh cong");
+                            System.out.println(conn.getCatalog());
+                            
+                            // select all student
+                            PreparedStatement  stmt = conn.prepareStatement(sql);
+                            stmt.setString(1, SignInUsernameTypeField.getText().toLowerCase());
+                            Hashing passHashing = new Hashing();
+                            System.out.println( passHashing.Hashing(String.valueOf(SignInPasswordTypeField.getText())));
+                            ResultSet rs = stmt.executeQuery();
+                            if (rs.next()) {
+                                if (VP.ValidatePassword(String.valueOf(SignInPasswordTypeField.getText()), rs.getString(2))){
+                                user2 = new UserInformation();
+                                user2.Password = rs.getString(2);
+                                customer.userName = rs.getString(1);
+                                customer.FullName = rs.getString(3);
+                                customer.Email = rs.getString(7);
+                                customer.PhoneNumber = rs.getString(5);
+                                customer.isLoggedIn = true;          
+                                customer.Password = rs.getString(2);                     
+                                }
+                            }
+                            if (user2 != null) {
+                                JOptionPane.showMessageDialog(null, "Login succesfully!", "Logged In", JOptionPane.INFORMATION_MESSAGE);                                
+                                repaintPage();
+                                deleteSignInPane();
+                            }
+                            else {
+                                JOptionPane.showMessageDialog(null, "Failed to login", "Error", JOptionPane.ERROR_MESSAGE);
+                            }
+                            // change
+        
+                            stmt.close();
+                            conn.close();
+                         } 
+                         catch(Exception E)
+                         {
+                            System.out.println("ST wrong!!");
+                            E.printStackTrace();
+                         }
+                   
                     repaintPage();
                     deleteSignInPane();
                 }
@@ -1281,6 +1462,7 @@ public class ProfilePage extends Pane
                 @Override
                 public void handle(ActionEvent e)
                 {
+                       
                     deleteSignInPane();
                     signup();
                 }
@@ -1322,11 +1504,11 @@ public class ProfilePage extends Pane
         SigningPane.getChildren().remove(5);
         SigningPane.getChildren().remove(5);
         SigningPane.getChildren().remove(5);
-        if(isAlertedSignIn==true)
-        {
-            isAlertedSignIn=false;
-            SigningPane.getChildren().remove(5);
-        }
+        // if(isAlertedSignIn==true)
+        // {
+        //     isAlertedSignIn=false;
+        //     SigningPane.getChildren().remove(5);
+        // }
         SigningPane.getChildren().remove(2);
         BlurBox.setEffect(null);
         this.getChildren().remove(1);
@@ -1452,7 +1634,116 @@ public class ProfilePage extends Pane
                         SigningPane.getChildren().addAll(SignUpAlert1, SignUpAlert2);
                     }
                      */
-
+                    String url = "jdbc:mysql://localhost:3306/javadatabase";
+                    String user = "root";
+                    String password = "";
+                    String sqlInsert = "INSERT INTO `tblseller`(`Tên đăng nhập`, `Password`) VALUES (?,?)";
+                    String check = "SELECT * FROM `tblseller` where `Tên đăng Nhập`=?" ; 
+                    // String selectAll = "SELECT * FROM `tblseller`";
+                    boolean userNameCheck = false;
+                    char [] passtoString = SignUpPasswordTypeField.getText().toCharArray();
+                    char [] userNametoString = SignUpUsernameTypeField.getText().toCharArray();
+                    int countNumbersPass = 0;
+                    int countUpperCasePass =0;
+                    int countNumbersUserName = 0;
+                    String username = SignUpUsernameTypeField.getText();
+                    String passwordtf = SignUpPasswordTypeField.getText();
+                    // check the numbers of pass
+                    for (int i = 0;i<passwordtf.length();i++){
+                        if (Character.isDigit(passtoString[i])){
+                           countNumbersPass++;
+                        }
+                        if (Character.isUpperCase(passtoString[i]))
+                            countUpperCasePass++;
+                    }
+                    for (int i =0 ; i<username.length();i++){
+                        if (Character.isDigit(userNametoString[i])){
+                            countNumbersUserName++;
+                        }
+                    }
+                    
+                    try(Connection conn= DriverManager.getConnection(url, user, password)){
+                    System.out.println("ket noi thanh cong");
+                    System.out.println(conn.getCatalog());
+                    PreparedStatement stmt = conn.prepareStatement(check);
+                    stmt.setString(1, username);
+                
+                    ResultSet rs = stmt.executeQuery();
+        
+                    while (rs.next()) {
+        
+                         if (rs.getString(1).equals(username)){
+                            userNameCheck = true;}
+                                              
+                    }
+                    // change
+                     if (passwordtf.isEmpty() || username.isEmpty() ){
+                        JOptionPane.showMessageDialog(null, "Please enter all the fields", "Try again", JOptionPane.ERROR_MESSAGE);;
+                        return;
+                    }
+                    if (username.length()<8 || countNumbersUserName<2){
+                        JOptionPane.showMessageDialog(null,
+                        "User name must has 8 character or above and at least 2 number ",
+                        "Try again",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+                    }
+                    if (userNameCheck){
+                        JOptionPane.showMessageDialog(null,
+                        "User name is used!",
+                        "Try again",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+                    }
+                    if (passwordtf.length()<8){
+                        JOptionPane.showMessageDialog(null,
+                        "Password must contain 8 character or above",
+                        "Try again",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+                    }
+        
+                    if (!passwordtf.equals(SignUpRePasswordTypeField.getText())){
+                        JOptionPane.showMessageDialog(null,
+                        "Confirm Password does not match",
+                        "Try again",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+                }
+                if (countNumbersPass<2){
+                    JOptionPane.showMessageDialog(null,
+                    "Not enough numbers!",
+                    "Try again",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        
+                }
+                if (countUpperCasePass<1){
+                    JOptionPane.showMessageDialog(null,
+                    "Not enough Uppercase!",
+                    "Try again",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+                }
+                Hashing passDB = new Hashing();
+             System.out.println(passDB.Hashing(passwordtf));
+                            // select all student
+                            stmt = conn.prepareStatement(sqlInsert);
+                            stmt.setString(1,username);
+                            stmt.setString(2,passDB.Hashing(passwordtf));
+                           
+                            stmt.execute();
+        
+                           JOptionPane.showMessageDialog(null, "<HTML> Đăng Kí thành công <HTML>");
+                            stmt.close();
+                            conn.close();
+                     
+                         } 
+                         catch(Exception E)
+                         {
+                             E.printStackTrace();
+                         }
+            
                     repaintPage();
                     deleteSignUpPane();
                 }

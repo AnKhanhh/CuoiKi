@@ -61,7 +61,7 @@ public class StartPage extends Pane
         Background.setCache(true);
 
         //PageTitle:
-        PageTitle=new FormattedText("A good         drink is likekindness", -1.0, -1.4, false);
+        PageTitle=new FormattedText("A good        drink is like kindness", -1.0, -1.4, false);
         PageTitle.setFont(CustomFont.createFont("Raleway - ExtraBold", "ttf", 28));
         PageTitle.setFill(Color1);
         PageTitle.setPrefWrapLength(150);
