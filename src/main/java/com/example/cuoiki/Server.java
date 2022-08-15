@@ -14,6 +14,7 @@ public class Server {
 	public Server() {
 		ServerSocket ssCmd=null, ssMsg=null, ssObj=null;
 		Socket sObj, sCmd, sMsg;
+		DataOutputStream dout = null;
 		String msg;
 		try {
 			ssCmd = new ServerSocket(4000);
@@ -28,20 +29,22 @@ public class Server {
 			sCmd=ssCmd.accept();
 			sMsg=ssMsg.accept();
 			sObj=ssObj.accept();
+			dout = new DataOutputStream(sMsg.getOutputStream());
 			System.out.println("Established new connections.");
 			ServerThread serverThread = new ServerThread(sCmd,sObj,sMsg);
 			serverThread.start();
+			Scanner scanner = new Scanner(System.in);
+			while (true) {
+				msg = scanner.nextLine();
+				dout.writeUTF(msg);
+				dout.flush();
+			}
 		} catch (IOException e) {
 			System.out.println("Failed to establish new connections");
 		} catch (NullPointerException ex){
 			ex.printStackTrace();
 		}
 //		}
-		while (true) {
-			Scanner scanner = new Scanner(System.in);
-			msg = scanner.nextLine();
-			System.out.println("Server:" + msg);
-		}
 	}
 
 	public static void main(String[] args) {
@@ -66,7 +69,8 @@ class ServerThread extends Thread {
 		try {
 			dinCmd = new DataInputStream(sCmd.getInputStream());
 			dinMsg = new DataInputStream(sMsg.getInputStream());
-			oin = new ObjectInputStream(sObj.getInputStream());
+			dout = new DataOutputStream(sMsg.getOutputStream());
+;			oin = new ObjectInputStream(sObj.getInputStream());
 		} catch (IOException e) {
 			System.out.println("ERROR: failure in thread " + this.getName());
 		}
@@ -81,9 +85,12 @@ class ServerThread extends Thread {
 						@SuppressWarnings("unchecked")
 						ArrayList<SerialReceipt> serialReceipts = (ArrayList<SerialReceipt>) oin.readObject();
 						System.out.println("you have ordered the following items:");
+						Double total = 0.0;
 						for (SerialReceipt serialReceipt : serialReceipts) {
+							total+=serialReceipt.getPrice();
 							System.out.println("	" + serialReceipt.display());
 						}
+						System.out.println("for a total of: $"+total);
 					} catch (ClassNotFoundException e) {
 						e.printStackTrace();
 					}
@@ -97,7 +104,7 @@ class ServerThread extends Thread {
 				dinMsg.close();
 				dinCmd.close();
 				oin.close();
-//				dout.close();
+				dout.close();
 				sCmd.close();
 				sMsg.close();
 				sObj.close();

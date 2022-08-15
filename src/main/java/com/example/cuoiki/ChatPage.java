@@ -23,17 +23,16 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import java.io.DataOutputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
+import java.util.Scanner;
 
 public class ChatPage extends Pane
 {
 	//Chat:
 	static Socket s,sChat;
 	static DataOutputStream dout, doutChat;
+	static DataInputStream din;
 
 	static {
 		try {
@@ -41,11 +40,12 @@ public class ChatPage extends Pane
 			sChat = new Socket("127.0.0.1", 8000);
 			dout =new DataOutputStream(s.getOutputStream());
 			doutChat = new DataOutputStream(sChat.getOutputStream());
+			din = new DataInputStream(sChat.getInputStream());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	String msgout;
+	String msgout, msgin;
 
     //Declaration:
     private ScrollPane ScrollMainPage;
@@ -226,6 +226,10 @@ public class ChatPage extends Pane
         //Layout:
         this.getChildren().addAll(BlurredBackground, ScrollMainPage, TypingBox, NavBar);
         this.setLayoutX(0); this.setLayoutY(0);
+
+		//Start client thread
+		ClientThread clientThread = new ClientThread(sChat);
+		clientThread.start();
 	}
 
 	//Chat send message
@@ -244,4 +248,26 @@ public class ChatPage extends Pane
         setup(customer, drink);
         build();
     }
+}
+
+class ClientThread extends Thread{
+	static Socket sChat;
+	static DataInputStream din;
+
+	public ClientThread(Socket sChat){
+		this.sChat=sChat;
+	}
+
+	public void run(){
+		try {
+			din = new DataInputStream(sChat.getInputStream());
+			String msg;
+			while (true){
+				msg = din.readUTF();
+				System.out.println("Server: "+msg);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }
